@@ -1,0 +1,98 @@
+package IO_test;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+/**
+ *  复制图片，采用字节流
+ *	
+ *	数据源：d:\\a.jpg -- FileInputStream -- BufferedInputStream
+ *	目的地: e:\\b.jpg -- FileOutputStream -- BufferedOutputStream
+ *
+ */
+public class CopyImageDemo {
+	public static void main(String[] args) throws IOException {
+		// 使用字符串作为参数
+		// String srcString = "d:\\a.jpg";
+		// String destString = "e:\\b.jpg";
+
+		// 采用File对象作为参数
+		File srcFile = new File("d:\\2.jpg");
+		File destFile = new File("e:\\b.jpg");
+
+		// method1(srcFile, destFile);
+		// method2(srcFile, destFile);
+		// method3(srcFile,destFile);
+		method4(srcFile,destFile);
+	}
+	
+	////字节缓冲流一次读取一个字节数组
+	private static void method4(File srcFile, File destFile) throws IOException {
+		// TODO Auto-generated method stub
+		BufferedInputStream bis = new BufferedInputStream(new 
+				FileInputStream(srcFile));
+		BufferedOutputStream bos = new BufferedOutputStream(new 
+				FileOutputStream(destFile));
+		
+		byte[] bys = new byte[1024];
+		int len = 0;
+		while ((len = bis.read(bys)) != -1) {
+			bos.write(bys,0,len);
+		}
+
+		bos.close();
+		bis.close();
+	}
+
+	//字节缓冲流一次读取一个字节
+	private static void method3(File srcFile, File destFile) throws IOException {
+		// TODO Auto-generated method stub
+		BufferedInputStream bis = new BufferedInputStream(new 
+				FileInputStream(srcFile));
+		BufferedOutputStream bos = new BufferedOutputStream(new 
+				FileOutputStream(destFile));
+		int by =0;
+		while((by=bis.read())!=-1) {
+			bos.write(by);
+		}
+		
+		bos.close();
+		bis.close();
+	}
+
+	//一次读写一个字节数组
+	private static void method2(File srcFile, File destFile) throws IOException {
+		// TODO Auto-generated method stub
+		FileInputStream fis = new FileInputStream(srcFile);
+		FileOutputStream fos = new FileOutputStream(destFile);
+		
+		byte[] bys = new byte[1024];
+		int len = 0;
+		while ((len = fis.read(bys)) != -1) {
+			fos.write(bys,0,len);
+		}
+
+		fos.close();
+		fis.close();
+	}
+
+	// 一次读写一个字节
+	private static void method1(File srcFile, File destFile) throws IOException {
+		// TODO Auto-generated method stub
+		FileInputStream fis = new FileInputStream(srcFile);
+		FileOutputStream fos = new FileOutputStream(destFile);
+
+		int by = 0;
+		while ((by = fis.read()) != -1) {
+			fos.write(by);
+		}
+
+		fos.close();
+		fis.close();
+	}
+}
